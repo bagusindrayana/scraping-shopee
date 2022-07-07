@@ -10,7 +10,7 @@
     {
         "nama":"-",
         "harga":"Rp",
-        "link":"Rp"
+        "link":"https"
     }
 ]
 ```
