@@ -26,7 +26,8 @@ async function scrapping(paramArray = null) {
                 '--disable-setuid-sandbox',
             ],
         });
-        const page = await browser.newPage();
+        const context = await browser.createIncognitoBrowserContext();
+        const page = await context.newPage();
         await page.setJavaScriptEnabled(true);
         await page.setUserAgent(randomAgent);
         await page.goto(url, { waituntil: 'domcontentloaded', timeout: 0 });
@@ -34,7 +35,7 @@ async function scrapping(paramArray = null) {
             width: 1200,
             height: 800
         });
-        await page.waitForSelector('.shopee-search-item-result__items',{timeout:0});
+        //await page.waitForSelector('.shopee-search-item-result__items',{timeout:0});
 
         await page.evaluate(async () => {
             await new Promise((resolve, reject) => {
