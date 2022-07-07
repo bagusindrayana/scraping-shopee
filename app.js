@@ -11,9 +11,9 @@ const baseUrl = "https://shopee.co.id";
 const searchUrl = baseUrl+"/search?";
 
 
-async function scrapping(paramArray = null,userAgentOs = "Windows") {
+async function scrapping(paramArray = null,userAgentOs = null) {
     const randomAgent = randomUseragent.getRandom(function (ua) {
-        return ua.osName === 'Linux';//change with your OS
+        return ua.osName === userAgentOs || userAgentOs == null;
     });
     var url = searchUrl;
     Object.entries(paramArray).forEach(entry => {
@@ -95,7 +95,7 @@ async function scrapping(paramArray = null,userAgentOs = "Windows") {
 }
 
 app.get('/', async (req, res) => {
-    var result = await scrapping(req.query,req.query.userAgentOs || null);
+    var result = await scrapping(req.query,req.query.userAgentOs || "Windows");
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(result));
 });
