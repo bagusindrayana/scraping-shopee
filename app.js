@@ -2,7 +2,7 @@ const axios = require("axios");
 const cheerio = require("cheerio");
 const pretty = require("pretty");
 const puppeteer = require('puppeteer');
-
+const randomUseragent = require('random-useragent');
 const express = require('express')
 const app = express()
 const port = 3000
@@ -10,7 +10,7 @@ const fs = require('fs');
 const baseUrl = "https://shopee.co.id";
 const searchUrl = baseUrl+"/search?";
 const agents = ["Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36", "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/78.0.3904.108 Safari/537.36", "Mozilla/5.0 (iPad; CPU OS 13_3 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) CriOS/79.0.3945.73 Mobile/15E148 Safari/604.1"];
-const randomAgent = agents[Math.floor(Math.random() * agents.length)];
+const randomAgent = randomUseragent.getRandom();
 
 async function scrapping(paramArray = null) {
     var url = searchUrl;
@@ -60,6 +60,10 @@ async function scrapping(paramArray = null) {
   
         const $ = cheerio.load(body);
         const listItems = $('[data-sqe="item"]');
+
+        if(listItems.length <= 0){
+            return { error: body.toString() };
+        }
 
         var resulst = [];
         listItems.each(function (idx, el) {
