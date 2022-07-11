@@ -1,5 +1,5 @@
 ### Run
-- `node cmd.js q=laptop` add more params with value separate with whitespace `q=laptop minPrice=5000000`
+- `node cmd.js keyword=laptop` add more params with value separate with whitespace `keyword=laptop minPrice=5000000`
 - `node app.js`
 - web buka url `http://localhost:3000/?keyword=laptop`
 
