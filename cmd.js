@@ -1,10 +1,6 @@
 const cheerio = require("cheerio");
 const puppeteer = require('puppeteer');
 const randomUseragent = require('random-useragent');
-const express = require('express')
-const app = express()
-const port = 3000
-const fs = require('fs');
 const baseUrl = "https://shopee.co.id";
 const searchUrl = baseUrl+"/search?";
 
@@ -16,8 +12,9 @@ async function scrapping(paramArray = null,userAgentOs = null) {
     var url = searchUrl;
     Object.entries(paramArray).forEach(entry => {
         const [key, value] = entry;
-        url += `${key}=${value}&`;
+        url += `${value}&`;
     });
+    console.log(url);
 
     try {
         const browser = await puppeteer.launch({
@@ -92,13 +89,5 @@ async function scrapping(paramArray = null,userAgentOs = null) {
     }
 }
 
-app.get('/', async (req, res) => {
-    var result = await scrapping(req.query,req.query.userAgentOs || "Windows");
-    res.setHeader('Content-Type', 'application/json');
-    res.end(JSON.stringify(result));
-});
-
-app.listen(process.env.PORT || port, () => {
-    console.log(`Example app listening on port ${port}`)
-})
-
+const myArgs = process.argv.slice(2);
+scrapping(myArgs);

@@ -1,7 +1,7 @@
 ### Run
+- `node cmd.js q=laptop` add more params with value separate with whitespace `q=laptop minPrice=5000000`
 - `node app.js`
-- buka url `http://localhost:3000/?keyword=laptop`
-- demo url https://infinite-harbor-59342.herokuapp.com/?keyword=laptop
+- web buka url `http://localhost:3000/?keyword=laptop`
 
 ### Response
 - Success
