@@ -1,16 +1,13 @@
 const cheerio = require("cheerio");
 const puppeteer = require('puppeteer');
-const randomUseragent = require('random-useragent');
 const baseUrl = "https://shopee.co.id";
 const searchUrl = baseUrl+"/search?";
 
 
-async function scrapping(paramArray = null,userAgentOs = null) {
-    const randomAgent = randomUseragent.getRandom(function (ua) {
-        return ua.osName === userAgentOs || userAgentOs == null;
-    });
+(async () => {
+    const myArgs = process.argv.slice(2);
     var url = searchUrl;
-    Object.entries(paramArray).forEach(entry => {
+    Object.entries(myArgs).forEach(entry => {
         const [key, value] = entry;
         url += `${value}&`;
     });
@@ -26,7 +23,7 @@ async function scrapping(paramArray = null,userAgentOs = null) {
         const context = await browser.createIncognitoBrowserContext();
         const page = await context.newPage();
         await page.setJavaScriptEnabled(true);
-        await page.setUserAgent(randomAgent);
+        await page.setUserAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.83 Safari/537.36");
         await page.goto(url, { waituntil: 'domcontentloaded', timeout: 0 });
         await page.setViewport({
             width: 1200,
@@ -81,13 +78,9 @@ async function scrapping(paramArray = null,userAgentOs = null) {
             }
 
         });
-
+        console.dir(resulst);
         await browser.close();
-        return resulst;
     } catch (error) {
-        return {error:error.toString()};
+        console.log(error);
     }
-}
-
-const myArgs = process.argv.slice(2);
-scrapping(myArgs);
+})();
